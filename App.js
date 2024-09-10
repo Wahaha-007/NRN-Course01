@@ -34,8 +34,8 @@ function AppNavigator() {
 
   return (
     <Stack.Navigator initialRouteName={user ? 'Welcome' : 'SignIn'}>
-      <Stack.Screen name="SignIn" component={SignInScreen} />
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
       <Stack.Screen
         name="Welcome"
         component={WelcomeScreen}
@@ -49,7 +49,7 @@ export default function App() {
   return (
     <UserProvider>
       <PaperProvider theme={BlackTheme}>
-        <NavigationContainer>
+        <NavigationContainer theme={BlackTheme}>
           <AppNavigator />
         </NavigationContainer>
       </PaperProvider>
