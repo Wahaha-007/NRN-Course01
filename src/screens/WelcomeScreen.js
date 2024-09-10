@@ -1,13 +1,14 @@
 // หน้า Welcome แบบ Passive ธรรมดา ไม่มีอะไรน่าตื่นเต้น
 
 import React, { useContext } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { firebaseSignout, getCurrentUser } from '../services/authService';
+import { View, Text, StyleSheet } from 'react-native';
+import { Button } from 'react-native-paper';
+import { firebaseSignout } from '../services/authService';
 import { UserContext } from '../context/UserContext'; // Adjust the path accordingly
 
 export default function WelcomeScreen({ navigation }) {
 	const { user } = useContext(UserContext);
-	const email = user?.email || 'No email available'; // Handle cases where email might be undefined
+	const email = user?.email || 'No email available'; // มี User ไหม ถ้ามีขอ E-mail ด้วย
 
 	// In a real app, role would come from the database or user profile.
 	const role = "Manager"; // This could be dynamic based on user role
@@ -27,11 +28,12 @@ export default function WelcomeScreen({ navigation }) {
 				<Text style={styles.emailText}>{email}</Text>
 			</View>
 			<Text style={styles.welcomeText}>Welcome, {role}!</Text>
-			<Button title="Sign Out" onPress={handleSignOut} />
+			<Button mode="contained" buttonColor="#555555" title="Sign Out" onPress={handleSignOut} style={{ marginTop: 8 }}>
+				Sign Out
+			</Button>
 		</View>
 	);
 }
-
 
 const styles = StyleSheet.create({
 	container: {

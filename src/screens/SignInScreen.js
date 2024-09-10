@@ -1,10 +1,9 @@
 // เป็นหน้า SignIn ง่ายๆ ยังไม่มี input validation (เดี๋ยวว่าจะสั่งให้ทำเพิ่ม)
 
-import React, { useState, useContext } from 'react';
-import { View, Text } from 'react-native';
-import { TextInput, Button } from 'react-native-paper'; // Use react-native-paper components
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, Animated } from 'react-native';
+import { TextInput, Button } from 'react-native-paper';
 import { signInWithEmail } from '../services/authService';
-import { UserContext } from '../context/UserContext'; // Adjust the path accordingly
 import { useTheme } from 'react-native-paper';
 
 export default function SignInScreen({ navigation }) {
@@ -24,39 +23,84 @@ export default function SignInScreen({ navigation }) {
 	};
 
 	return (
-		<View style={{ flex: 1, justifyContent: 'center', padding: 16, backgroundColor: colors.background }}>
-			<Text style={{ color: colors.text, fontSize: 24, marginBottom: 16, textAlign: 'center' }}>
-				Sign In
-			</Text>
-			<TextInput
-				label="Email"
-				value={email}
-				onChangeText={setEmail}
-				style={{ marginBottom: 20 }}
-				theme={{ colors: { text: colors.text, primary: colors.primary } }} // Apply theme to TextInput
-			/>
+		<KeyboardAvoidingView
+			style={styles.container}
+			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+		>
+			<View style={styles.card}>
+				<Text style={{ color: colors.text, fontSize: 24, marginBottom: 16, textAlign: 'center' }}>
+					Sign In
+				</Text>
 
-			<TextInput
-				label="Password"
-				value={password}
-				onChangeText={setPassword}
-				secureTextEntry
-				style={{ marginBottom: 20 }}
-				theme={{ colors: { text: colors.text, primary: colors.primary } }}
-			/>
+				<TextInput
+					label="Email"
+					value={email}
+					onChangeText={setEmail}
+					style={{ marginBottom: 20 }}
+					theme={{ colors: { text: colors.text, primary: colors.primary } }} // Apply theme to TextInput
+				/>
+				<TextInput
+					label="Password"
+					value={password}
+					onChangeText={setPassword}
+					secureTextEntry
+					style={{ marginBottom: 20 }}
+					theme={{ colors: { text: colors.text, primary: colors.primary } }}
+				/>
+				{error ? <Text style={styles.errorText}>{error}</Text> : <Text style={styles.errorText}></Text>}
 
+				<Button mode="contained" buttonColor="#555555" onPress={handleSignIn}>
+					{/*buttonColor="rgb(169, 169, 169)" // Dark grey in RGB*/}
+					Sign In
+				</Button>
 
-
-			{error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
-
-			<Button mode="contained" buttonColor="#555555" onPress={handleSignIn}>
-				{/*buttonColor="rgb(169, 169, 169)" // Dark grey in RGB*/}
-				Sign In
-			</Button>
-
-			<Button mode="contained" onPress={() => navigation.navigate('SignUp')} style={{ marginTop: 8 }}>
-				Create a new user
-			</Button>
-		</View>
+				<Button mode="contained" onPress={() => navigation.navigate('SignUp')} style={{ marginTop: 8 }}>
+					Create a new user
+				</Button>
+			</View>
+		</KeyboardAvoidingView>
 	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'center', // Center vertically
+		backgroundColor: '#000000',
+	},
+	card: {
+		backgroundColor: '#1f1f1f', // Card background
+		borderRadius: 10, // Rounded corners
+		padding: 20, // Space inside the card
+		margin: 20, // Margin around the card
+		alignSelf: 'center', // Center horizontally
+		shadowColor: '#000', // Shadow color
+		shadowOffset: { width: 0, height: 2 }, // Shadow position
+		shadowOpacity: 0.25, // Shadow opacity
+		shadowRadius: 3.84, // Shadow blur
+		elevation: 5, // For Android shadow
+		width: '90%', // Card width
+	},
+	input: {
+		height: 40,
+		borderColor: 'gray',
+		borderWidth: 1,
+		marginBottom: 12,
+		padding: 5,
+		color: 'white', // Ensures text is visible on dark background
+	},
+	title: {
+		fontSize: 24,
+		color: 'white',
+		textAlign: 'center',
+		marginBottom: 20,
+	},
+	button: {
+		marginBottom: 10,
+	},
+	errorText: {
+		color: 'red',
+		textAlign: 'center',
+		marginBottom: 10,
+	},
+});
