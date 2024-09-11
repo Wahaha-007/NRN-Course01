@@ -3,12 +3,12 @@ import { auth } from './firebaseConfig'; // Import the initialized auth object
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 export const signUpWithEmail = (email, password) => {
-	// console.log("Call signUpWithEmail");
+	//console.log("Call signUpWithEmail");
 	return createUserWithEmailAndPassword(auth, email, password);
 };
 
 export const signInWithEmail = (email, password) => {
-	// console.log("Call signInWithEmail");
+	//console.log("Call signInWithEmail");
 	return signInWithEmailAndPassword(auth, email, password);
 };
 
